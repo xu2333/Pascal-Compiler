@@ -1,3 +1,11 @@
+/****************************************************/
+/* File: pascal.y                                   */
+/* The PASCAL Yacc/Bison specification fil          */
+/* Compiler Construction: Principles and Practice   */
+/* Tao LIN                                          */
+/* (Use as a source of reference)*/
+/****************************************************/
+
 %{
     #include "globals.h"
     #include "utils.h"
@@ -14,14 +22,18 @@
 
 %%
 
+// combine program_head into program. Tao.
 program          : PROGRAM id_tmp SEMI routine DOT
                      {
                         $4->id = $2->id;
                         savedTree = $4;
                      }
                  ;
+// Let ID become a node rather than a token. Tao.                 
 id_tmp           : ID {$$ = newIdNode(); $$->id = copyString(tokenString);}
                  ;
+// combine routine_head into routine, and omit label_part. Tao.
+// combine routine_body into routine. Tao.
 routine          : const_part type_part var_part routine_part compound_stmt
                      {
                         $$ = newRoutineNode();
